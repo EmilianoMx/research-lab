@@ -1,0 +1,10 @@
+# CFF Version 1.0.0
+
+cff-version: 1.0.0
+version: 1.0.0
+date: 2026-02-19
+
+title: "Computational Research Lab: Reproducible Science Framework"
+authors:
+  - family-names: "Mascareño Beltran"
+    given-names: "Gustavo Emiliano"
