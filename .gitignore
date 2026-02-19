@@ -1,0 +1,24 @@
+# Exclude large data files
+*.csv
+*.xlsx
+*.hdf5
+*.zip
+*.tar.gz
+
+# R artifacts
+.Rhistory
+.RData
+.Rproj.user/
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Environment files
+env/
+.venv/
+*.env
+
+# Sensitive data
+secrets.yml
