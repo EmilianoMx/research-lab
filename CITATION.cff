@@ -1,10 +1,10 @@
-# CFF Version 1.0.0
-
-cff-version: 1.0.0
-version: 1.0.0
-date: 2026-02-19
-
+cff-version: 1.2.0
 title: "Computational Research Lab: Reproducible Science Framework"
+message: "If you use this repository, please cite it using this metadata."
+type: software
+version: 1.0.1
+date-released: 2026-02-19
 authors:
   - family-names: "Mascareño Beltran"
     given-names: "Gustavo Emiliano"
+license: MIT
