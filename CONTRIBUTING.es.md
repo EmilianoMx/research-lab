@@ -20,6 +20,9 @@
 - **Reproducibilidad:** Asegura que otros puedan ejecutar el trabajo y reproducir resultados.
 - **Especificación de entorno:** Incluye archivos de dependencias y versiones (por ejemplo, `requirements.txt` o `environment.yml`).
 
+## Validación local de calidad
+- Ejecuta `make validate` antes de abrir un pull request.
+
 ## Estándares de salida
 - **Reporte de resultados:** Presenta resultados de forma clara, con figuras y tablas correctamente etiquetadas.
 - **Control de calidad:** Implementa validaciones para detectar errores de forma temprana.

@@ -20,6 +20,14 @@ Core documents are available in parallel:
 | Data Management Protocol | [docs/DATA_MANAGEMENT_PROTOCOL.md](docs/DATA_MANAGEMENT_PROTOCOL.md) | [docs/DATA_MANAGEMENT_PROTOCOL.es.md](docs/DATA_MANAGEMENT_PROTOCOL.es.md) |
 | International Quality Audit | [docs/INTERNATIONAL_QUALITY_AUDIT.md](docs/INTERNATIONAL_QUALITY_AUDIT.md) | [docs/INTERNATIONAL_QUALITY_AUDIT.es.md](docs/INTERNATIONAL_QUALITY_AUDIT.es.md) |
 
+
+## Validation
+Run:
+```bash
+make validate
+```
+This checks bilingual README links and required `CITATION.cff` fields.
+
 ## Citation
 - [CITATION.cff](CITATION.cff)
 

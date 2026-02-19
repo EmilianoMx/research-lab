@@ -15,6 +15,20 @@ Welcome to the Computational Research Lab repository. This repository contains g
 - [Data Management Protocol](docs/DATA_MANAGEMENT_PROTOCOL.md)
 - [International Quality Audit](docs/INTERNATIONAL_QUALITY_AUDIT.md)
 
+
+## Quick start (for non-programmers)
+1. Install Git and Python 3.
+2. Clone the repository:
+   ```bash
+   git clone <your-repo-url>
+   cd research-lab
+   ```
+3. Run the built-in validation:
+   ```bash
+   make validate
+   ```
+4. Open `README.es.md` if you prefer Spanish documentation.
+
 ## Citation
 - [CITATION.cff](CITATION.cff)
 

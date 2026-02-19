@@ -20,6 +20,9 @@ Thank you for considering contributing to our computational research project! Th
 - **Reproducibility**: Ensure that your code can be executed by others to reproduce your results. Include installation and setup instructions in your documentation.
 - **Environment Specification**: Use environment files (e.g., requirements.txt, environment.yml) to specify dependencies and versions.
 
+## Local Quality Check
+- Run `make validate` before opening a pull request.
+
 ## Output Standards
 - **Results Reporting**: Clearly report results with appropriate visualizations. Ensure that all figures and tables are well-labeled and documented.
 - **Quality Control**: Implement quality control checks for outputs to catch potential issues early in the process.

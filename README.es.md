@@ -15,6 +15,20 @@ Bienvenido/a al repositorio del Laboratorio de Investigación Computacional. Est
 - [Protocolo de gestión de datos](docs/DATA_MANAGEMENT_PROTOCOL.es.md)
 - [Auditoría internacional de calidad](docs/INTERNATIONAL_QUALITY_AUDIT.es.md)
 
+
+## Inicio rápido (para personas sin perfil técnico)
+1. Instala Git y Python 3.
+2. Clona el repositorio:
+   ```bash
+   git clone <tu-url-del-repo>
+   cd research-lab
+   ```
+3. Ejecuta la validación incluida:
+   ```bash
+   make validate
+   ```
+4. Si prefieres inglés, abre `README.en.md`.
+
 ## Citación
 - [CITATION.cff](CITATION.cff)
 
