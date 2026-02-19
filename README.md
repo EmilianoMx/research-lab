@@ -21,6 +21,16 @@ Core documents are available in parallel:
 | International Quality Audit | [docs/INTERNATIONAL_QUALITY_AUDIT.md](docs/INTERNATIONAL_QUALITY_AUDIT.md) | [docs/INTERNATIONAL_QUALITY_AUDIT.es.md](docs/INTERNATIONAL_QUALITY_AUDIT.es.md) |
 
 
+
+## Visual platform UI
+A modern bilingual interface is available at `ui/index.html`.
+
+Run locally:
+```bash
+make serve-ui
+```
+Then open: `http://localhost:8000/ui/`
+
 ## Validation
 Run:
 ```bash
