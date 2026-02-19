@@ -5,15 +5,15 @@
 Bienvenido/a al repositorio del Laboratorio de Investigación Computacional. Este repositorio reúne políticas de gobernanza y estándares de calidad científica enfocados en reproducibilidad, gestión de datos y preparación para publicaciones.
 
 ## Gobernanza
-- [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
-- [CONTRIBUTING.md](CONTRIBUTING.md)
-- [GOVERNANCE.md](GOVERNANCE.md)
+- [Código de Conducta](CODE_OF_CONDUCT.es.md)
+- [Guía de Contribución](CONTRIBUTING.es.md)
+- [Gobernanza](GOVERNANCE.es.md)
 
 ## Estándares de investigación
-- [Estándares metodológicos](docs/METHODOLOGY_STANDARDS.md)
-- [Checklist de reproducibilidad](docs/REPRODUCIBILITY_CHECKLIST.md)
-- [Protocolo de gestión de datos](docs/DATA_MANAGEMENT_PROTOCOL.md)
-- [Auditoría internacional de calidad](docs/INTERNATIONAL_QUALITY_AUDIT.md)
+- [Estándares metodológicos](docs/METHODOLOGY_STANDARDS.es.md)
+- [Checklist de reproducibilidad](docs/REPRODUCIBILITY_CHECKLIST.es.md)
+- [Protocolo de gestión de datos](docs/DATA_MANAGEMENT_PROTOCOL.es.md)
+- [Auditoría internacional de calidad](docs/INTERNATIONAL_QUALITY_AUDIT.es.md)
 
 ## Citación
 - [CITATION.cff](CITATION.cff)
