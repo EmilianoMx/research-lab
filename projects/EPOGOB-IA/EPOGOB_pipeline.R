@@ -2,17 +2,40 @@
 # EPOGOB-IA | Pipeline reproducible (CFA + SEM + LPA + Reporte)
 # Autor: Gustavo Emiliano Mascareño Beltrán
 # Fecha: 2026-02-20
+#
+# Entrada:
+#   - Excel ORIGINAL exportado desde Google Forms (respuestas)
+#   - O CSV (UTF-8-BOM)
+#
+# Qué hace:
+#   1) Abre explorador para seleccionar archivo (file.choose())
+#   2) Detecta automáticamente columnas Likert (1-5) y toma 24 ítems
+#   3) Renombra ítems: IA_AI1..4, IA_TE1..4, GOV_CD1..4, GOV_TO1..4, WB_SL1..4, WB_EC1..4
+#   4) Crea dimensiones promedio: IA_AI, IA_TE, GOV_CD, GOV_TO, WB_SL, WB_EC
+#   5) CFA (WLSMV) + SEM 2º orden (WLSMV) con boundary fix (Heywood) en IA_AI2
+#   6) LPA (1:3 clases) sobre 6 dimensiones + ANOVA
+#   7) Exporta Excel con tablas + matrices + QA + LPA + SEM, y guarda plot LPA
+#
+# Salidas (junto al archivo seleccionado):
+#   ./Resultados_EPOGOB/
+#     - EPOGOB-IA_respuestas_limpias_codigos.xlsx
+#     - EPOGOB_Reporte_SEM_LPA.xlsx
+#     - LPA_plot_profiles_K{best_k}.png
 # ============================================================
 
 rm(list = ls())
 
+# ---------------------------
 # 0) Paquetes
+# ---------------------------
 pkgs <- c("tidyverse", "readxl", "lavaan", "semTools", "psych", "tidyLPA", "mclust", "openxlsx")
 to_install <- pkgs[!pkgs %in% installed.packages()[, "Package"]]
 if (length(to_install) > 0) install.packages(to_install)
 invisible(lapply(pkgs, library, character.only = TRUE))
 
-# 1) Elegir archivo
+# ---------------------------
+# 1) Elegir archivo con explorador
+# ---------------------------
 cat("📂 Selecciona el EXCEL ORIGINAL del Forms (respuestas)...\n")
 file_path <- file.choose()
 cat("✅ Archivo seleccionado:\n", file_path, "\n\n")
@@ -25,13 +48,17 @@ if (grepl("\\.xlsx$", file_path, ignore.case = TRUE)) {
   stop("Formato no soportado. Usa .xlsx o .csv")
 }
 
+# ---------------------------
 # 2) Carpeta de resultados
+# ---------------------------
 base_dir <- dirname(normalizePath(file_path, winslash = "/", mustWork = FALSE))
 results_dir <- file.path(base_dir, "Resultados_EPOGOB")
 if (!dir.exists(results_dir)) dir.create(results_dir, recursive = TRUE)
 cat("📁 Carpeta de resultados:\n", results_dir, "\n\n")
 
-# 3) Detectar Likert 1-5 y mapear a códigos
+# ---------------------------
+# 3) Detectar columnas Likert (1-5) y mapear a códigos
+# ---------------------------
 raw_num <- raw
 raw_num[] <- lapply(raw_num, function(x) suppressWarnings(as.numeric(as.character(x))))
 
@@ -51,6 +78,7 @@ if (length(likert_cols) < 24) {
   ))
 }
 
+# Importante: toma las primeras 24 columnas Likert detectadas (orden del formulario)
 item_cols <- likert_cols[1:24]
 
 codes <- c(
@@ -62,11 +90,12 @@ codes <- c(
   paste0("WB_EC", 1:4)
 )
 
+# Demográficos (se conservan si existen)
 demo_candidates <- c(
-  "Marca temporal", "Edad:",
+  "Marca temporal","Edad:",
   "Género: si la persona se reconoce como hombre, mujer u otra opción.",
-  "Nivel máximo de estudios ", "Departamento/Área de Trabajo:", "Horario Laboral:",
-  "Nombre de la empresa: (Opcional y anonimo)", "Años trabajando en esta empresa:"
+  "Nivel máximo de estudios ","Departamento/Área de Trabajo:","Horario Laboral:",
+  "Nombre de la empresa: (Opcional y anonimo)","Años trabajando en esta empresa:"
 )
 demo_cols <- intersect(demo_candidates, names(raw))
 
@@ -74,21 +103,25 @@ data <- raw %>%
   select(all_of(demo_cols), all_of(item_cols)) %>%
   rename(!!!setNames(item_cols, codes))
 
+# Convertir ítems a numérico
 data[codes] <- lapply(data[codes], function(x) as.numeric(as.character(x)))
 
+# Crear dimensiones promedio
 data <- data %>%
   mutate(
-    IA_AI = rowMeans(across(all_of(paste0("IA_AI", 1:4))), na.rm = TRUE),
-    IA_TE = rowMeans(across(all_of(paste0("IA_TE", 1:4))), na.rm = TRUE),
+    IA_AI  = rowMeans(across(all_of(paste0("IA_AI", 1:4))), na.rm = TRUE),
+    IA_TE  = rowMeans(across(all_of(paste0("IA_TE", 1:4))), na.rm = TRUE),
     GOV_CD = rowMeans(across(all_of(paste0("GOV_CD", 1:4))), na.rm = TRUE),
     GOV_TO = rowMeans(across(all_of(paste0("GOV_TO", 1:4))), na.rm = TRUE),
-    WB_SL = rowMeans(across(all_of(paste0("WB_SL", 1:4))), na.rm = TRUE),
-    WB_EC = rowMeans(across(all_of(paste0("WB_EC", 1:4))), na.rm = TRUE)
+    WB_SL  = rowMeans(across(all_of(paste0("WB_SL", 1:4))), na.rm = TRUE),
+    WB_EC  = rowMeans(across(all_of(paste0("WB_EC", 1:4))), na.rm = TRUE)
   )
 
+# Guardar archivo limpio
 clean_xlsx <- file.path(results_dir, "EPOGOB-IA_respuestas_limpias_codigos.xlsx")
 openxlsx::write.xlsx(data, clean_xlsx, overwrite = TRUE)
 
+# QA rápido
 qa <- list(
   n = nrow(data),
   faltantes_items = sum(is.na(as.matrix(data[codes]))),
@@ -98,13 +131,15 @@ qa <- list(
 )
 
 cat("✅ Archivo limpio guardado en:\n", clean_xlsx, "\n")
-cat("🔎 QA rápido:\n")
-print(qa)
-cat("\n")
+cat("🔎 QA rápido:\n"); print(qa); cat("\n")
 
 ordered_items <- codes
 
-# A) CFA
+# ============================================================
+# A) CFA (6 factores) | WLSMV
+# - Latentes con prefijo F_ para evitar colisiones
+# - Boundary fix: IA_AI2 ~~ 0*IA_AI2 (Heywood leve)
+# ============================================================
 cfa_model_6f <- '
   F_IA_AI  =~ IA_AI1 + IA_AI2 + IA_AI3 + IA_AI4
   F_IA_TE  =~ IA_TE1 + IA_TE2 + IA_TE3 + IA_TE4
@@ -118,7 +153,7 @@ cfa_model_6f <- '
 
 fit_cfa <- cfa(model = cfa_model_6f, data = data, ordered = ordered_items, estimator = "WLSMV")
 
-cfa_fit <- fitMeasures(fit_cfa, c("cfi", "tli", "rmsea", "srmr"))
+cfa_fit <- fitMeasures(fit_cfa, c("cfi","tli","rmsea","srmr"))
 cfa_loadings <- parameterEstimates(fit_cfa, standardized = TRUE) %>%
   filter(op == "=~") %>%
   select(lhs, rhs, est, se, z, pvalue, std.all)
@@ -126,9 +161,12 @@ cfa_loadings <- parameterEstimates(fit_cfa, standardized = TRUE) %>%
 cfa_reliab <- tryCatch(reliability(fit_cfa), error = function(e) e)
 
 lambda_std <- inspect(fit_cfa, "std")$lambda
-psi_std <- inspect(fit_cfa, "std")$psi
+psi_std    <- inspect(fit_cfa, "std")$psi
 
-# B) SEM
+# ============================================================
+# B) SEM 2º orden: IA -> GOV -> WB | WLSMV
+# - Incluye boundary fix para IA_AI2
+# ============================================================
 sem_model <- '
   F_IA_AI  =~ IA_AI1 + IA_AI2 + IA_AI3 + IA_AI4
   F_IA_TE  =~ IA_TE1 + IA_TE2 + IA_TE3 + IA_TE4
@@ -152,14 +190,16 @@ sem_model <- '
 
 fit_sem <- sem(model = sem_model, data = data, ordered = ordered_items, estimator = "WLSMV")
 
-sem_fit <- fitMeasures(fit_sem, c("cfi", "tli", "rmsea", "srmr"))
+sem_fit <- fitMeasures(fit_sem, c("cfi","tli","rmsea","srmr"))
 sem_paths <- parameterEstimates(fit_sem, standardized = TRUE) %>%
   filter(op %in% c("~", ":=")) %>%
   select(lhs, op, rhs, est, se, z, pvalue, std.all)
 
-# C) LPA
+# ============================================================
+# C) LPA (1:3 clases) sobre 6 dimensiones
+# ============================================================
 lpa_vars <- data %>%
-  select(all_of(c("IA_AI", "IA_TE", "GOV_CD", "GOV_TO", "WB_SL", "WB_EC"))) %>%
+  select(all_of(c("IA_AI","IA_TE","GOV_CD","GOV_TO","WB_SL","WB_EC"))) %>%
   drop_na()
 
 lpa_scaled <- as.data.frame(scale(lpa_vars))
@@ -185,12 +225,12 @@ profile_means <- lpa_join %>%
   group_by(Profile) %>%
   summarise(
     n = n(),
-    IA_AI = mean(IA_AI, na.rm = TRUE),
-    IA_TE = mean(IA_TE, na.rm = TRUE),
+    IA_AI  = mean(IA_AI,  na.rm = TRUE),
+    IA_TE  = mean(IA_TE,  na.rm = TRUE),
     GOV_CD = mean(GOV_CD, na.rm = TRUE),
     GOV_TO = mean(GOV_TO, na.rm = TRUE),
-    WB_SL = mean(WB_SL, na.rm = TRUE),
-    WB_EC = mean(WB_EC, na.rm = TRUE),
+    WB_SL  = mean(WB_SL,  na.rm = TRUE),
+    WB_EC  = mean(WB_EC,  na.rm = TRUE),
     .groups = "drop"
   ) %>%
   arrange(Profile)
@@ -198,25 +238,27 @@ profile_means <- lpa_join %>%
 anova_WB_SL <- summary(aov(WB_SL ~ factor(Profile), data = lpa_join))
 anova_WB_EC <- summary(aov(WB_EC ~ factor(Profile), data = lpa_join))
 
+# Plot LPA
 plot_path <- file.path(results_dir, paste0("LPA_plot_profiles_K", best_k, ".png"))
 png(plot_path, width = 1400, height = 900)
 plot_profiles(best_lpa)
 dev.off()
 
-# D) Exportar reporte
+# ============================================================
+# D) Exportar reporte Excel
+# ============================================================
 out_report <- file.path(results_dir, "EPOGOB_Reporte_SEM_LPA.xlsx")
 wb <- createWorkbook()
 
 addWorksheet(wb, "QA")
 writeData(wb, "QA", data.frame(
   Metric = c("n", "faltantes_items", "min_item", "max_item"),
-  Value = c(qa$n, qa$faltantes_items, qa$min_item, qa$max_item)
+  Value  = c(qa$n, qa$faltantes_items, qa$min_item, qa$max_item)
 ))
 
 addWorksheet(wb, "QA_missing_by_item")
 writeData(wb, "QA_missing_by_item",
-  data.frame(Item = names(qa$faltantes_por_item), Missing = as.integer(qa$faltantes_por_item))
-)
+          data.frame(Item = names(qa$faltantes_por_item), Missing = as.integer(qa$faltantes_por_item)))
 
 addWorksheet(wb, "CFA_Fit")
 writeData(wb, "CFA_Fit", data.frame(Metric = names(cfa_fit), Value = as.numeric(cfa_fit)))
@@ -255,20 +297,18 @@ writeData(wb, "LPA_ProfileMeans", profile_means)
 addWorksheet(wb, "ANOVA")
 writeData(wb, "ANOVA", data.frame(
   Test = c("ANOVA_WB_SL", "ANOVA_WB_EC"),
-  Output = c(
-    paste(capture.output(anova_WB_SL), collapse = "\n"),
-    paste(capture.output(anova_WB_EC), collapse = "\n")
-  )
+  Output = c(paste(capture.output(anova_WB_SL), collapse = "\n"),
+             paste(capture.output(anova_WB_EC), collapse = "\n"))
 ))
 
 saveWorkbook(wb, out_report, overwrite = TRUE)
 
-# E) Final
+# ============================================================
+# E) Mensajes finales
+# ============================================================
 cat("\n================== RESULTADOS ==================\n")
-cat("✅ CFA Fit:\n")
-print(cfa_fit)
-cat("\n✅ SEM Fit:\n")
-print(sem_fit)
+cat("✅ CFA Fit:\n"); print(cfa_fit)
+cat("\n✅ SEM Fit:\n"); print(sem_fit)
 cat("\n✅ LPA mejor K por BIC:", best_k, "\n\n")
 cat("📄 Reporte guardado en:\n", out_report, "\n")
 cat("🖼️ Plot LPA guardado en:\n", plot_path, "\n")
