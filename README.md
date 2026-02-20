@@ -1,21 +1,50 @@
-# Computational Research Lab
+# Computational Research Lab / Laboratorio de Investigación Computacional
 
-Welcome to the Computational Research Lab repository. This document provides an overview of the lab's governance, infrastructure, and templates.
+Choose your language / Elige tu idioma:
 
-## Governance
-- [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md)
-- [CONTRIBUTING.md](CONTRIBUTING.md)
-- [GOVERNANCE.md](GOVERNANCE.md)
+- 🇬🇧 English: [README.en.md](README.en.md)
+- 🇪🇸 Español: [README.es.md](README.es.md)
 
-## Infrastructure
-- [architecture](infrastructure/architecture)
-- [deployment](infrastructure/deployment)
-- [tools](infrastructure/tools)
+## Language switching
+This repository keeps **both languages in the same codebase**.
 
-## Templates
-- [issue_template.md](templates/issue_template.md)
-- [pull_request_template.md](templates/pull_request_template.md)
-- [report_template.md](templates/report_template.md)
+Core documents are available in parallel:
+
+| Document | English | Español |
+|---|---|---|
+| Governance | [GOVERNANCE.md](GOVERNANCE.md) | [GOVERNANCE.es.md](GOVERNANCE.es.md) |
+| Contributing | [CONTRIBUTING.md](CONTRIBUTING.md) | [CONTRIBUTING.es.md](CONTRIBUTING.es.md) |
+| Code of Conduct | [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) | [CODE_OF_CONDUCT.es.md](CODE_OF_CONDUCT.es.md) |
+| Methodology Standards | [docs/METHODOLOGY_STANDARDS.md](docs/METHODOLOGY_STANDARDS.md) | [docs/METHODOLOGY_STANDARDS.es.md](docs/METHODOLOGY_STANDARDS.es.md) |
+| Reproducibility Checklist | [docs/REPRODUCIBILITY_CHECKLIST.md](docs/REPRODUCIBILITY_CHECKLIST.md) | [docs/REPRODUCIBILITY_CHECKLIST.es.md](docs/REPRODUCIBILITY_CHECKLIST.es.md) |
+| Data Management Protocol | [docs/DATA_MANAGEMENT_PROTOCOL.md](docs/DATA_MANAGEMENT_PROTOCOL.md) | [docs/DATA_MANAGEMENT_PROTOCOL.es.md](docs/DATA_MANAGEMENT_PROTOCOL.es.md) |
+| International Quality Audit | [docs/INTERNATIONAL_QUALITY_AUDIT.md](docs/INTERNATIONAL_QUALITY_AUDIT.md) | [docs/INTERNATIONAL_QUALITY_AUDIT.es.md](docs/INTERNATIONAL_QUALITY_AUDIT.es.md) |
+
+
+
+## Visual platform UI
+A modern bilingual interface is available at `ui/index.html`.
+
+Run locally:
+```bash
+make serve-ui
+```
+Then open: `http://localhost:8000/ui/`
+
+## Validation
+Run:
+```bash
+make validate
+```
+This checks bilingual README links and required `CITATION.cff` fields.
+
+
+## Research project onboarding
+To organize incoming code by research project, use:
+- [Project onboarding guide (Spanish)](docs/PROJECT_ONBOARDING_ES.md)
+
+## Citation
+- [CITATION.cff](CITATION.cff)
 
 ## License
 This project is licensed under the [MIT License](LICENSE).

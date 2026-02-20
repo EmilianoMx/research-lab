@@ -1,0 +1,64 @@
+:root {
+  --bg: #0b1020;
+  --card: #111933;
+  --card2: #0f1730;
+  --text: #e8ecff;
+  --muted: #aab6e6;
+  --accent: #7c9bff;
+  --accent2: #31d0aa;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  color: var(--text);
+  background: radial-gradient(1000px 500px at 20% -10%, #22356f 0%, var(--bg) 60%);
+}
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 24px;
+  border-bottom: 1px solid #29365e;
+  position: sticky;
+  top: 0;
+  backdrop-filter: blur(8px);
+  background: #0b1020cc;
+}
+.brand { font-weight: 700; }
+.lang {
+  border: 1px solid #3a4c86;
+  background: transparent;
+  color: var(--text);
+  padding: 6px 12px;
+  border-radius: 12px;
+  margin-left: 8px;
+  cursor: pointer;
+}
+.lang.active { background: var(--accent); color: #08122e; border-color: var(--accent); }
+.container { max-width: 1040px; margin: 0 auto; padding: 28px 20px 48px; }
+.hero { background: linear-gradient(140deg, #15234f, #111935); padding: 24px; border-radius: 18px; border: 1px solid #2f427a; }
+.hero p { color: var(--muted); }
+.hero-cta { display:flex; gap:12px; margin-top:16px; flex-wrap: wrap; }
+.btn { text-decoration:none; padding:10px 16px; border-radius: 12px; font-weight: 600; }
+.btn.primary { background: var(--accent2); color:#06231f; }
+.btn.ghost { border:1px solid #3a4c86; color:var(--text); }
+.grid {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+}
+.card {
+  background: linear-gradient(160deg, var(--card), var(--card2));
+  border: 1px solid #2a3c73;
+  border-radius: 14px;
+  padding: 14px;
+}
+.card h3 { margin: 0 0 8px; font-size: 1rem; }
+.card p { color: var(--muted); font-size: .92rem; min-height: 45px; }
+.card a { color: #99b4ff; text-decoration: none; font-weight: 600; }
+.steps { margin-top: 24px; background: #101736; border: 1px solid #2a3b74; border-radius: 14px; padding: 16px 20px; }
+ol { color: var(--muted); }
+.footer { border-top: 1px solid #29365e; padding: 16px 24px; color: var(--muted); display: flex; justify-content: space-between; }
+.footer a { color: #9fb8ff; text-decoration: none; }

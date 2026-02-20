@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Research Lab Platform</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="brand">🧪 Research Lab Platform</div>
+      <div class="actions">
+        <button id="lang-en" class="lang active">EN</button>
+        <button id="lang-es" class="lang">ES</button>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="hero">
+        <h1 id="title"></h1>
+        <p id="subtitle"></p>
+        <div class="hero-cta">
+          <a class="btn primary" href="../README.md" target="_blank" id="cta-main"></a>
+          <a class="btn ghost" href="../README.es.md" target="_blank" id="cta-secondary"></a>
+        </div>
+      </section>
+
+      <section>
+        <h2 id="section-docs"></h2>
+        <div class="grid" id="docs-grid"></div>
+      </section>
+
+      <section class="steps">
+        <h2 id="section-replicate"></h2>
+        <ol id="steps-list"></ol>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span id="footer-text"></span>
+      <a href="../LICENSE" target="_blank">MIT</a>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
