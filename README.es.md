@@ -29,6 +29,11 @@ Bienvenido/a al repositorio del Laboratorio de Investigación Computacional. Est
    ```
 4. Si prefieres inglés, abre `README.en.md`.
 
+
+## Subir nuevos proyectos de investigación
+Para agrupar nuevos códigos por proyecto, completa esta guía:
+- [Guía de onboarding de proyectos](docs/PROJECT_ONBOARDING_ES.md)
+
 ## Citación
 - [CITATION.cff](CITATION.cff)
 

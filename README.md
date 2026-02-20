@@ -38,6 +38,11 @@ make validate
 ```
 This checks bilingual README links and required `CITATION.cff` fields.
 
+
+## Research project onboarding
+To organize incoming code by research project, use:
+- [Project onboarding guide (Spanish)](docs/PROJECT_ONBOARDING_ES.md)
+
 ## Citation
 - [CITATION.cff](CITATION.cff)
 
