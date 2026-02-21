@@ -19,3 +19,7 @@ Welcome to the Computational Research Lab repository. This document provides an 
 
 ## License
 This project is licensed under the [MIT License](LICENSE).
+## Roadmap implementation snippets
+
+- `docs/PARTE1_BOOT_MODAL_2050.R`: starter snippet for **Roadmap 30/30 – Parte 1/30** (Boot Modal 2050, Chat/Agente mode, role/objective, fast mode, and dynamic system prompt builder for Shiny apps).
+
